@@ -24,13 +24,37 @@ html,body {
     gap: 50px;
 }
 
-#display {
+/*---------- Display  ------- */
+#display-container {
     outline: blue dashed 3px;
     width: 700px;
-    height: 200px;
+    height: 220px;
     margin-top: 60px;
+    
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    gap: 10px;
+    
 }
 
+#previous {
+    outline: red dashed 2px;
+    height: 100px;
+    font-size: 40px;
+    padding-right: 20px;
+}
+
+#current {
+    outline: green dashed 2px;
+    height: 100px;
+    font-size: 60px;
+    padding-right: 10px;
+}
+
+
+
+/* -----------Buttons ------------ */
 #button-container {
     outline: pink dashed 3px;
     width: 700px;
