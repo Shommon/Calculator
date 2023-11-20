@@ -3,27 +3,38 @@ let digits = Array.from({length:10}, (_,i) => (i+1)-1);
 
 const current = document.querySelector('#current');
 current.textContent = 'Hello';
-let currentNum = '0';
+let currentNum = '';
 let currentOperator = '';
 let sentence = [0,'',''];
 let currentPos = 0;
-const num1 = [0];
-const num2 = [0];
+
 
 // Give all children of rows eventListeners
 const buttons = document.querySelectorAll('#row')
 buttons.forEach((button) => button.addEventListener('click',(e)=> {
 
     //Update Numbers
-    if (e.target.classList.contains('digit') && currentPos == 0) {
+    if (e.target.classList.contains('digit')) {
         pushDigit(e.target);  //Update CurrentNum
-    } else if (e.target.classList.contains('operator') && currentPos == 0) {
+    }
+    
+    if (e.target.classList.contains('operator') && currentPos == 0) {
         operateNum(e.target); // Update currentOperator
-        num1[0] = currentNum; //Lock in sentence[0]
-        currentNum = 0; //Reset currentNum
-        currentPos = 1; //Move Sentence position
+        sentence[currentPos] = currentNum; //Lock in sentence[0]
+        sentence[currentPos+1] = currentOperator;
+        currentNum = ''; //Reset currentNum
+        currentPos += 1; //Move Sentence position
     } else if (e.target.classList.contains('operator') && currentPos == 1) {
         operateNum(e.target)
+        sentence[currentPos] = currentOperator;
+    } else if (e.target.classList.contains('digit') && currentPos == 1) {
+        currentPos = 2;
+    } else if (e.target.classList.contains('enter')) {
+        sentence[currentPos] = currentNum;
+        currentPos = 0;
+        /// Evaluate Sentence
+        /// Set currentNum to result of operation
+        console.log(sentence);
     }
 
 }));
