@@ -28,6 +28,10 @@ buttons.forEach((button) => button.addEventListener('click',(e)=> {
         pushDigit(e.target);  //Update CurrentNum
         current.textContent = currentNum;
     }
+    if (e.target.classList.contains('decimal')) {
+        pushDecimal(e.target);
+        current.textContent = currentNum;
+    }  
     
     if (e.target.classList.contains('operator') && currentPos == 0) {
         operateNum(e.target); // Update currentOperator
@@ -36,8 +40,12 @@ buttons.forEach((button) => button.addEventListener('click',(e)=> {
         previous.textContent = sentence[0] + sentence[1];
         currentNum = ''; //Reset currentNum
         currentPos += 1; //Move Sentence position
+        decimalPressed = false;
+
     } else if (e.target.classList.contains('operator') && currentPos == 1) {
         operateNum(e.target)
+        decimalPressed = false;
+
         sentence[currentPos] = currentOperator;
     } else if (e.target.classList.contains('digit') && currentPos == 1) {
         currentPos = 2; //pressing digits after operator moves position forward
@@ -48,17 +56,20 @@ buttons.forEach((button) => button.addEventListener('click',(e)=> {
         sentence[0] = result;
         console.log(result);
         current.textContent = result;
+        decimalPressed = false;
 
         if (result == 'ERROR'){
             previous.textContent = ''
         } else {
             previous.textContent = sentence[0] + sentence[1] + sentence[2];
         }
+        
     } else if (e.target.classList.contains('operator') && currentPos == 2){
         operateNum(e.target);
         sentence[1] = currentOperator;
         currentNum = '';
         previous.textContent = sentence[0] + sentence[1];
+        decimalPressed = false;
     }
 }));
 
@@ -80,14 +91,16 @@ function pushDecimal(button){
     if (decimalPressed == false){
         currentNum += button.id.toString();
         decimalPressed = true;
+    } else {
+        return
     }
 }
 
 
 function operate(array){
 
-    let num1 = parseInt(array[0]);
-    let num2 = parseInt(array[2]);
+    let num1 = parseFloat(array[0]);
+    let num2 = parseFloat(array[2]);
     let operator = array[1];
     console.log(num1, operator ,num2);
     switch(operator) {
@@ -116,6 +129,7 @@ function clearAll(){
     sentence = [0,'',''];
     currentPos = 0;
     result = '';
+    decimalPressed = false;
 }
 
 function clearCurrent(){
