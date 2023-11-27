@@ -23,7 +23,7 @@ clearBtn.addEventListener('click', clearCurrent);
 const buttons = document.querySelectorAll('#row')
 buttons.forEach((button) => button.addEventListener('click',(e)=> {
 
-    //Update Numbers
+    // Update Numbers
     if (e.target.classList.contains('digit')) {
         pushDigit(e.target);  //Update CurrentNum
         current.textContent = currentNum;
@@ -32,7 +32,9 @@ buttons.forEach((button) => button.addEventListener('click',(e)=> {
         pushDecimal(e.target);
         current.textContent = currentNum;
     }  
-    
+
+
+
     if (e.target.classList.contains('operator') && currentPos == 0) {
         operateNum(e.target); // Update currentOperator
         sentence[currentPos] = currentNum; //Lock in sentence[0]
@@ -45,8 +47,9 @@ buttons.forEach((button) => button.addEventListener('click',(e)=> {
     } else if (e.target.classList.contains('operator') && currentPos == 1) {
         operateNum(e.target)
         decimalPressed = false;
-
         sentence[currentPos] = currentOperator;
+
+
     } else if (e.target.classList.contains('digit') && currentPos == 1) {
         currentPos = 2; //pressing digits after operator moves position forward
     } else if (e.target.classList.contains('enter') && currentPos == 2) {
