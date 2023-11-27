@@ -1,67 +1,9 @@
 <mxfile host="65bd71144e">
     <diagram id="Ru2gOm5IYNIQPtsvkwW_" name="Page-1">
-        <mxGraphModel dx="461" dy="657" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="424" dy="787" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="5" style="edgeStyle=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="4" target="7">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="140" y="550" as="targetPoint"/>
-                        <Array as="points">
-                            <mxPoint x="120" y="630"/>
-                        </Array>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="4" value="Button Click Event" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" vertex="1" parent="1">
-                    <mxGeometry x="60" y="290" width="120" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="8" style="edgeStyle=none;html=1;" edge="1" parent="1" source="6">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="260" y="420" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="12" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="6">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="370" y="419.66666666666674" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="6" value="pushDigit(e.target)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-                    <mxGeometry x="180" y="390" width="130" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="13" style="edgeStyle=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="7" target="17">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="400" y="630" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="7" value="operateNum(e.target)" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-                    <mxGeometry x="175" y="600" width="140" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="10" value="" style="endArrow=classic;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" target="6">
-                    <mxGeometry width="50" height="50" relative="1" as="geometry">
-                        <mxPoint x="120" y="420" as="sourcePoint"/>
-                        <mxPoint x="200" y="500" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="15" style="edgeStyle=none;html=1;fontFamily=Helvetica;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="14" target="16">
-                    <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="480" y="330" as="targetPoint"/>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="14" value="&lt;div style=&quot;color: rgb(234, 242, 241); background-color: rgb(40, 42, 58); font-size: 16px; line-height: 22px;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;color: rgb(255, 101, 122);&quot;&gt;Check if button.id is a digit&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
-                    <mxGeometry x="360" y="380" width="260" height="70" as="geometry"/>
-                </mxCell>
-                <mxCell id="16" value="Update currentNum" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#d80073;fontColor=#ffffff;strokeColor=#A50040;" vertex="1" parent="1">
-                    <mxGeometry x="430" y="260" width="120" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="19" style="edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fontFamily=Helvetica;" edge="1" parent="1" source="17" target="18">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="17" value="Check if button.id is a operator" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fontFamily=Helvetica;" vertex="1" parent="1">
-                    <mxGeometry x="390" y="600" width="220" height="60" as="geometry"/>
-                </mxCell>
-                <mxCell id="18" value="Update currentOperation" style="rounded=1;whiteSpace=wrap;html=1;fontFamily=Helvetica;fillColor=#d80073;fontColor=#ffffff;strokeColor=#A50040;" vertex="1" parent="1">
-                    <mxGeometry x="420" y="500" width="160" height="60" as="geometry"/>
-                </mxCell>
             </root>
         </mxGraphModel>
     </diagram>
