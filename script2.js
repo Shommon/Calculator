@@ -44,7 +44,7 @@ function pushNum(button) {
 function changeOperator(button) {
     if (state == 'OPERATION') {
         sentencePosition = 1;
-        
+
     }
 }
 
@@ -53,19 +53,6 @@ function changeOperator(button) {
 function updateDisplay() {
     current.textContent = currentNum;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // Operate
