@@ -1,18 +1,17 @@
 const current = document.querySelector('#current');
 const previous = document.querySelector('#previous');
 const allclearBtn = document.querySelector('#allclear');
-const clearBtn = document.querySelector('#clear');
+const delBtn = document.querySelector('#delete');
 // ALL CLEAR BUTTON
 allclearBtn.addEventListener('click', clearAll);
 // ClEAR CURRENT BUTTON
-clearBtn.addEventListener('click', clearCurrent);
+delBtn.addEventListener('click', del);
 
 // Global Variables
 let state = '';
 let currentNum = '0';
 let currentOperator = '';
 let sentencePosition = -1;
-let recursionCount = 0;
 let recursionOn = false;
 let sentence = {
     num1:'0',
@@ -36,7 +35,6 @@ buttons.forEach((button) => button.addEventListener('click', (e) => {
         changeOperator(e.target);
         grabResult(e.target);
         updateDisplay();
-
     }
 }))
 
@@ -45,33 +43,28 @@ buttons.forEach((button) => button.addEventListener('click', (e) => {
 // Push Numbers
 function pushNum(button) {
     if (state == 'NUMERATE') {
+        recursionOn = false;
         switch (sentencePosition) {
             case -1: //Buffer
                 resetCurrentNum();
                 currentNum += button.id.toString(); //Push Numbers to String
                 sentencePosition = 0;
                 updateSentence('num1', currentNum);
-                return
+                break
             case 0:
                 currentNum += button.id.toString(); //Push Numbers to String
                 updateSentence('num1', currentNum)
-                return
+                break
             case 'buffer':
                 resetCurrentNum();
                 currentNum += button.id.toString(); //Push Numbers to String
                 sentencePosition = 2;
                 updateSentence('num2', currentNum)
-                return
-            // case 1: //Buffer
-            //     resetCurrentNum();
-            //     currentNum += button.id.toString(); //Push Numbers to String
-            //     sentencePosition = 2;
-            //     updateSentence('num2', currentNum)
-            //     return
+                break
             case 2:
                 currentNum += button.id.toString();
                 updateSentence('num2', currentNum)
-                return
+                break
 
         }
     }
@@ -94,6 +87,7 @@ function updateSentence(category, input){
 // Change Operator
 function changeOperator(button) {
     if (state == 'OPERATION') {
+        recursionOn = false;
         switch (sentencePosition){
             case -1:
                 sentencePosition = 'buffer';
@@ -109,10 +103,13 @@ function changeOperator(button) {
                 updateSentence('operator', currentOperator);
                 return
             case 2:
-                previousValue(); // Set result as num1
+                // previousValue(); // Set result as num1
                 currentOperator = button.id.toString(); //Update Current Operator
                 updateSentence('operator', currentOperator);
+                sentence.result = operate(Object.values(sentence).slice(0,3));
+                previousValue();
                 sentencePosition = 'buffer';
+                state = 'RETURN'
                 return;
         }
     }
@@ -153,7 +150,7 @@ function operate(array){
     let num1 = parseFloat(array[0]);
     let num2 = parseFloat(array[2]);
     let operator = array[1];
-    // console.log(num1, operator ,num2);
+    console.log(num1, operator ,num2);
     switch(operator) {
         case "+":
             return num1 + num2;
@@ -180,46 +177,35 @@ function changeState(button) {
         state = 'OPERATION'
     } else if (button.classList.contains('enter')) {
         state = 'RETURN'
+    } else if (button.classList.contains('del')){
+        state = '';
+        console.log('pass')
     }
 }
 
 //Grab Result
 function grabResult(button){
-    // if (button.id == 'enter' && state == 'RETURN' && ) {
-
-    // } else if (button.id == 'enter' && state == 'RETURN'){
-    //     let result = operate(Object.values(sentence).slice(0,3));
-    //     console.log('pass')
-    //     sentence.result = result;
-    //     if (result == 0){
-    //         currentNum = '';
-    //     } else {
-    //         currentNum = result;
-    //     }
-    //     sentencePosition = 'buffer'
-    //     return
-    // } else {
-    //     returnstate = 'RECURSIVE'
-    // }
-
     if (button.id == 'enter'){
         let result;
-
-
         if (recursionOn == false){
             result = operate(Object.values(sentence).slice(0,3))
             sentence.result = result;
+            sentence.num1 = result;
             recursionOn = true;
         } else {
             result = operate([sentence.result, sentence.operator, sentence.num2])
+            sentence.num1 = result;
             sentence.result = result;
-            recursionCount++;
         }
+
+        // Fix Zero Display
         if (result == 0){
             currentNum = '';
             } else {
                 currentNum = result;
             }
+
+    sentencePosition = 'buffer'
     }
 }
 
@@ -227,9 +213,6 @@ function grabResult(button){
 function clearAll(){
     resetDisplay();
     resetGlobalVariables();
-}
-
-function clearCurrent(){
 }
 
 function resetCurrentNum(){
@@ -247,9 +230,27 @@ function resetGlobalVariables(){
     num2:'',
     result:''
     };
+    recursionOn = false;
 }
 
 function resetDisplay(){
     current.textContent = '';
     previous.textContent = '';
+}
+
+function del(){
+    currentNum = String(currentNum);
+    currentNum = currentNum.slice(0,-1);
+    switch (sentencePosition){
+        case 0:
+            sentence.num1 = currentNum || 0;
+            break
+        case 2:
+            sentence.num2 = currentNum || 0;
+            break
+        case 'buffer':
+            sentence.num2 = currentNum || 0;
+            break
+
+    }
 }
