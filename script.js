@@ -1,111 +1,198 @@
-//Digits
-let digits = Array.from({length:10}, (_,i) => (i+1)-1);
 const current = document.querySelector('#current');
 const previous = document.querySelector('#previous');
 const allclearBtn = document.querySelector('#allclear');
-const clearBtn = document.querySelector('#clear')
-
-current.textContent = 0;
-let currentNum = '';
-let currentOperator = '';
-let sentence = [0,'',''];
-let currentPos = 0;
-let result = '';
-let decimalPressed = false;
-
+const delBtn = document.querySelector('#delete');
+// const decimalBtn = document.querySelector('#decimal');
 // ALL CLEAR BUTTON
 allclearBtn.addEventListener('click', clearAll);
-
 // ClEAR CURRENT BUTTON
-clearBtn.addEventListener('click', clearCurrent);
+delBtn.addEventListener('click', del);
 
-// Give all children of rows eventListeners
+// Global Variables
+let state = '';
+let currentNum = '0';
+let currentNumLength = 0;
+let currentOperator = '';
+let sentencePosition = -1;
+let decimalPressed = false;
+let recursionOn = false;
+let sentence = {
+    num1:'0',
+    operator:'',
+    num2:'',
+    result:''
+};
+
+
+//Initialize Display
+updateDisplay();
+
+
+
+// Calculator Button Listeners
 const buttons = document.querySelectorAll('#row')
-buttons.forEach((button) => button.addEventListener('click',(e)=> {
-
-    // Update Numbers
-    if (e.target.classList.contains('digit')) {
-        pushDigit(e.target);  //Update CurrentNum
-        current.textContent = currentNum;
+buttons.forEach((button) => button.addEventListener('click', (e) => {
+    if (e.target.id != 'row' && state != 'ERROR'){
+            changeState(e.target);
+            pushNum(e.target);
+            pushDecimal(e.target);
+            getCurrentNumLength();
+            changeOperator(e.target);
+            grabResult(e.target);
+            updateDisplay();
     }
-    if (e.target.classList.contains('decimal')) {
-        pushDecimal(e.target);
-        current.textContent = currentNum;
-    }  
-
-
-
-    if (e.target.classList.contains('operator') && currentPos == 0) {
-        operateNum(e.target); // Update currentOperator
-        sentence[currentPos] = currentNum; //Lock in sentence[0]
-        sentence[currentPos+1] = currentOperator;
-        previous.textContent = sentence[0] + sentence[1];
-        currentNum = ''; //Reset currentNum
-        currentPos += 1; //Move Sentence position
-        decimalPressed = false;
-
-    } else if (e.target.classList.contains('operator') && currentPos == 1) {
-        operateNum(e.target)
-        decimalPressed = false;
-        sentence[currentPos] = currentOperator;
-
-
-    } else if (e.target.classList.contains('digit') && currentPos == 1) {
-        currentPos = 2; //pressing digits after operator moves position forward
-    } else if (e.target.classList.contains('enter') && currentPos == 2) {
-        // Mimic when pressed = again, uses the last digit input as the second number for operation
-        sentence[currentPos] = currentNum; 
-        result = operate(sentence);
-        sentence[0] = result;
-        console.log(result);
-        current.textContent = result;
-        decimalPressed = false;
-
-        if (result == 'ERROR'){
-            previous.textContent = ''
-        } else {
-            previous.textContent = sentence[0] + sentence[1] + sentence[2];
-        }
         
-    } else if (e.target.classList.contains('operator') && currentPos == 2){
-        operateNum(e.target);
-        sentence[1] = currentOperator;
-        currentNum = '';
-        previous.textContent = sentence[0] + sentence[1];
-        decimalPressed = false;
-    }
-}));
-
-// console.log(digits[9])
-
-
-// Update Current Number
-function pushDigit(button){
-    currentNum += button.id.toString();
-}
-
-// Update Current Operation
-function operateNum(button){
-    currentOperator = button.id;
-    console.log(currentOperator)
-}
+}))
 
 function pushDecimal(button){
-    if (decimalPressed == false){
-        currentNum += button.id.toString();
-        decimalPressed = true;
-    } else {
-        return
+    if (decimalPressed == false) {
+        if (button.classList.contains('decimal')){
+            decimalPressed = true;
+            
+            switch (sentencePosition) {
+                case -1:
+                    sentencePosition = 0;
+                    currentNum += '.';
+                    updateSentence('num1', currentNum);
+                    break;
+                case 0:
+                    if (!currentNum.includes('.')) {
+                        currentNum += '.';
+                        updateSentence('num1', currentNum);
+                    }
+                    break;
+                case 2:
+                    if (!currentNum.includes('.')) {
+                        currentNum += '.';
+                        updateSentence('num2', currentNum);
+                    }
+                    break;
+                case 'buffer':
+                    resetCurrentNum();
+                    currentNum += '0.';
+                    sentencePosition = 2;
+                    updateSentence('num2', currentNum)
+                    break;
+            }
+        } else {
+            return
+        }
+
+    }
+}
+
+// Push Numbers
+function pushNum(button) {
+    if (state == 'NUMERATE' && button.id != 'decimal' && currentNumLength < 28) {
+        recursionOn = false;
+
+        switch (sentencePosition) {
+            case -1: //Buffer
+                resetCurrentNum();
+                currentNum += button.id.toString(); //Push Numbers to String
+                sentencePosition = 0;
+                updateSentence('num1', currentNum);
+                break
+            case 0:
+                currentNum += button.id.toString(); //Push Numbers to String
+                updateSentence('num1', currentNum)
+                break
+            case 'buffer':
+                resetCurrentNum();
+                currentNum += button.id.toString(); //Push Numbers to String
+                sentencePosition = 2;
+                updateSentence('num2', currentNum)
+                break
+            case 2:
+                currentNum += button.id.toString();
+                updateSentence('num2', currentNum)
+                break
+
+        }
     }
 }
 
 
-function operate(array){
+// Change Operator
+function changeOperator(button) {
+    if (state == 'OPERATION' && button.id != 'decimal') {
+        recursionOn = false;
+        decimalPressed = false;
+        currentNumLength = 0;
+        switch (sentencePosition){
+            case -1:
+                sentencePosition = 'buffer';
+                currentOperator = button.id.toString();
+                updateSentence('operator', currentOperator);
+            case 0:
+                sentencePosition = 'buffer';
+                currentOperator = button.id.toString();
+                updateSentence('operator', currentOperator);
+                return;
+            case 'buffer':
+                currentOperator = button.id.toString();
+                updateSentence('operator', currentOperator);
+                return
+            case 2:
+                // previousValue(); // Set result as num1
+                currentOperator = button.id.toString(); //Update Current Operator
+                updateSentence('operator', currentOperator);
+                sentence.result = operate(Object.values(sentence).slice(0,3));
+                previousValue();
+                sentencePosition = 'buffer';
+                state = 'RETURN'
+                return;
+        }
+    }
+}
 
+//Display Functions
+function updateDisplay() {
+    if (state == 'RETURN'){
+        current.textContent = sentence.result;
+        previous.textContent = sentence.num1 + sentence.operator + sentence.num2;
+        return
+    }
+    switch (sentencePosition) {
+        case -1:
+            current.textContent = currentNum;
+            return
+        case 0:
+            current.textContent = sentence.num1;
+            return
+        case 'buffer':
+            current.textContent = currentNum;
+            previous.textContent = sentence.num1 + sentence.operator;
+            return
+        case 2: 
+            current.textContent = currentNum;
+            previous.textContent = sentence.num1 + sentence.operator + sentence.num2;
+            return
+    }
+    
+}
+
+
+function updateSentence(category, input){
+    switch (category){
+        case 'num1':
+            sentence.num1 = input;
+            return;
+        case 'operator':
+            sentence.operator = input;
+            return
+        case 'num2':
+            sentence.num2 = input;
+            return
+    }
+}
+
+// Operate
+function operate(array){
     let num1 = parseFloat(array[0]);
     let num2 = parseFloat(array[2]);
     let operator = array[1];
-    console.log(num1, operator ,num2);
+    // console.log(num1, operator ,num2);
     switch(operator) {
         case "+":
             return num1 + num2;
@@ -115,27 +202,108 @@ function operate(array){
             return num1 * num2; 
         case "/":
             if (num2 == 0){
+                state = 'ERROR'
                 return "ERROR"
             } else {
                 return num1 / num2;
             }
-        case "%":
-            return num1 % num2;
+        case "^":
+            return num1 ** num2;
     }
 }
 
+// Change States
+function changeState(button) {
+    if (button.classList.contains('digit')){
+        state = 'NUMERATE'
+    } else if (button.classList.contains('operator')) {
+        state = 'OPERATION'
+    } else if (button.classList.contains('enter')) {
+        state = 'RETURN'
+    } else if (button.classList.contains('del')){
+        state = '';
+    }
+}
+
+//Grab Result
+function grabResult(button){
+    if (button.id == 'enter'){
+        decimalPressed = false;
+        let result;
+        if (recursionOn == false){
+            result = operate(Object.values(sentence).slice(0,3))
+            sentence.result = result;
+            sentence.num1 = result;
+            recursionOn = true;
+        } else {
+            result = operate([sentence.result, sentence.operator, sentence.num2])
+            sentence.num1 = result;
+            sentence.result = result;
+        }
+
+        // Fix Zero Display
+        if (result == 0){
+            currentNum = '';
+            } else {
+                currentNum = result;
+            }
+
+    sentencePosition = 'buffer'
+    }
+}
+
+// Reset Functions
 function clearAll(){
-    current.textContent = 0;
-    previous.textContent = 0;
+    resetDisplay();
+    resetGlobalVariables();
+}
+
+function resetCurrentNum(){
     currentNum = '';
+}
+
+function resetGlobalVariables(){
+    state = '';
+    currentNum = '0';
     currentOperator = '';
-    sentence = [0,'',''];
-    currentPos = 0;
-    result = '';
+    sentencePosition = -1;
+    sentence = {
+    num1:'0',
+    operator:'',
+    num2:'',
+    result:''
+    };
+    recursionOn = false;
     decimalPressed = false;
 }
 
-function clearCurrent(){
-    current.textContent = 0;
-    currentNum = '';
+function resetDisplay(){
+    current.textContent = '';
+    previous.textContent = '';
+}
+
+function del(){
+    currentNum = String(currentNum);
+    currentNum = currentNum.slice(0,-1);
+    switch (sentencePosition){
+        case 0:
+            sentence.num1 = currentNum || 0;
+            break
+        case 2:
+            sentence.num2 = currentNum || 0;
+            break
+        case 'buffer':
+            sentence.num2 = currentNum || 0;
+            break
+
+    }
+}
+
+
+function previousValue(){
+    sentence.num1 = sentence.result
+}
+
+function getCurrentNumLength() {
+    currentNumLength = currentNum.length;
 }
