@@ -11,6 +11,7 @@ delBtn.addEventListener('click', del);
 // Global Variables
 let state = '';
 let currentNum = '0';
+let currentNumLength = 0;
 let currentOperator = '';
 let sentencePosition = -1;
 let decimalPressed = false;
@@ -35,6 +36,7 @@ buttons.forEach((button) => button.addEventListener('click', (e) => {
             changeState(e.target);
             pushNum(e.target);
             pushDecimal(e.target);
+            getCurrentNumLength();
             changeOperator(e.target);
             grabResult(e.target);
             updateDisplay();
@@ -81,8 +83,9 @@ function pushDecimal(button){
 
 // Push Numbers
 function pushNum(button) {
-    if (state == 'NUMERATE' && button.id != 'decimal') {
+    if (state == 'NUMERATE' && button.id != 'decimal' && currentNumLength < 28) {
         recursionOn = false;
+
         switch (sentencePosition) {
             case -1: //Buffer
                 resetCurrentNum();
@@ -109,25 +112,13 @@ function pushNum(button) {
     }
 }
 
-function updateSentence(category, input){
-    switch (category){
-        case 'num1':
-            sentence.num1 = input;
-            return;
-        case 'operator':
-            sentence.operator = input;
-            return
-        case 'num2':
-            sentence.num2 = input;
-            return
-    }
-}
 
 // Change Operator
 function changeOperator(button) {
     if (state == 'OPERATION' && button.id != 'decimal') {
         recursionOn = false;
         decimalPressed = false;
+        currentNumLength = 0;
         switch (sentencePosition){
             case -1:
                 sentencePosition = 'buffer';
@@ -155,9 +146,6 @@ function changeOperator(button) {
     }
 }
 
-function previousValue(){
-    sentence.num1 = sentence.result
-}
 //Display Functions
 function updateDisplay() {
     if (state == 'RETURN'){
@@ -184,12 +172,27 @@ function updateDisplay() {
     
 }
 
+
+function updateSentence(category, input){
+    switch (category){
+        case 'num1':
+            sentence.num1 = input;
+            return;
+        case 'operator':
+            sentence.operator = input;
+            return
+        case 'num2':
+            sentence.num2 = input;
+            return
+    }
+}
+
 // Operate
 function operate(array){
     let num1 = parseFloat(array[0]);
     let num2 = parseFloat(array[2]);
     let operator = array[1];
-    console.log(num1, operator ,num2);
+    // console.log(num1, operator ,num2);
     switch(operator) {
         case "+":
             return num1 + num2;
@@ -294,4 +297,13 @@ function del(){
             break
 
     }
+}
+
+
+function previousValue(){
+    sentence.num1 = sentence.result
+}
+
+function getCurrentNumLength() {
+    currentNumLength = currentNum.length;
 }
