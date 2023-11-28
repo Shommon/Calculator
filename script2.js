@@ -31,14 +31,15 @@ updateDisplay();
 // Calculator Button Listeners
 const buttons = document.querySelectorAll('#row')
 buttons.forEach((button) => button.addEventListener('click', (e) => {
-    if (e.target.id != 'row'){
-        changeState(e.target);
-        pushNum(e.target);
-        pushDecimal(e.target);
-        changeOperator(e.target);
-        grabResult(e.target);
-        updateDisplay();
+    if (e.target.id != 'row' && state != 'ERROR'){
+            changeState(e.target);
+            pushNum(e.target);
+            pushDecimal(e.target);
+            changeOperator(e.target);
+            grabResult(e.target);
+            updateDisplay();
     }
+        
 }))
 
 function pushDecimal(button){
@@ -157,7 +158,6 @@ function changeOperator(button) {
 function previousValue(){
     sentence.num1 = sentence.result
 }
-
 //Display Functions
 function updateDisplay() {
     if (state == 'RETURN'){
@@ -199,6 +199,7 @@ function operate(array){
             return num1 * num2; 
         case "/":
             if (num2 == 0){
+                state = 'ERROR'
                 return "ERROR"
             } else {
                 return num1 / num2;
@@ -218,7 +219,6 @@ function changeState(button) {
         state = 'RETURN'
     } else if (button.classList.contains('del')){
         state = '';
-        console.log('pass')
     }
 }
 
