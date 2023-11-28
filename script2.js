@@ -2,6 +2,7 @@ const current = document.querySelector('#current');
 const previous = document.querySelector('#previous');
 const allclearBtn = document.querySelector('#allclear');
 const delBtn = document.querySelector('#delete');
+// const decimalBtn = document.querySelector('#decimal');
 // ALL CLEAR BUTTON
 allclearBtn.addEventListener('click', clearAll);
 // ClEAR CURRENT BUTTON
@@ -12,6 +13,7 @@ let state = '';
 let currentNum = '0';
 let currentOperator = '';
 let sentencePosition = -1;
+let decimalPressed = false;
 let recursionOn = false;
 let sentence = {
     num1:'0',
@@ -32,17 +34,53 @@ buttons.forEach((button) => button.addEventListener('click', (e) => {
     if (e.target.id != 'row'){
         changeState(e.target);
         pushNum(e.target);
+        pushDecimal(e.target);
         changeOperator(e.target);
         grabResult(e.target);
         updateDisplay();
     }
 }))
 
+function pushDecimal(button){
+    if (decimalPressed == false) {
+        if (button.classList.contains('decimal')){
+            decimalPressed = true;
+            
+            switch (sentencePosition) {
+                case -1:
+                    sentencePosition = 0;
+                    currentNum += '.';
+                    updateSentence('num1', currentNum);
+                    break;
+                case 0:
+                    if (!currentNum.includes('.')) {
+                        currentNum += '.';
+                        updateSentence('num1', currentNum);
+                    }
+                    break;
+                case 2:
+                    if (!currentNum.includes('.')) {
+                        currentNum += '.';
+                        updateSentence('num2', currentNum);
+                    }
+                    break;
+                case 'buffer':
+                    resetCurrentNum();
+                    currentNum += '0.';
+                    sentencePosition = 2;
+                    updateSentence('num2', currentNum)
+                    break;
+            }
+        } else {
+            return
+        }
 
+    }
+}
 
 // Push Numbers
 function pushNum(button) {
-    if (state == 'NUMERATE') {
+    if (state == 'NUMERATE' && button.id != 'decimal') {
         recursionOn = false;
         switch (sentencePosition) {
             case -1: //Buffer
@@ -86,8 +124,9 @@ function updateSentence(category, input){
 
 // Change Operator
 function changeOperator(button) {
-    if (state == 'OPERATION') {
+    if (state == 'OPERATION' && button.id != 'decimal') {
         recursionOn = false;
+        decimalPressed = false;
         switch (sentencePosition){
             case -1:
                 sentencePosition = 'buffer';
@@ -164,8 +203,8 @@ function operate(array){
             } else {
                 return num1 / num2;
             }
-        case "%":
-            return num1 % num2;
+        case "^":
+            return num1 ** num2;
     }
 }
 
@@ -186,6 +225,7 @@ function changeState(button) {
 //Grab Result
 function grabResult(button){
     if (button.id == 'enter'){
+        decimalPressed = false;
         let result;
         if (recursionOn == false){
             result = operate(Object.values(sentence).slice(0,3))
@@ -231,6 +271,7 @@ function resetGlobalVariables(){
     result:''
     };
     recursionOn = false;
+    decimalPressed = false;
 }
 
 function resetDisplay(){
