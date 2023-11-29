@@ -1,5 +1,5 @@
 # Calculator
-Sample calculator with basic mathematical operations\
+Sample calculator with basic mathematical operations
 
 Live Example:
 
