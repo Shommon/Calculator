@@ -32,7 +32,7 @@ updateDisplay();
 // Calculator Button Listeners
 const buttons = document.querySelectorAll('#row')
 buttons.forEach((button) => button.addEventListener('click', (e) => {
-    if (e.target.id != 'row' && state != 'ERROR'){
+    if (e.target.id != 'row' && e.target.id != 'lights' && state != 'ERROR'){
             changeState(e.target);
             pushNum(e.target);
             pushDecimal(e.target);
@@ -83,7 +83,7 @@ function pushDecimal(button){
 
 // Push Numbers
 function pushNum(button) {
-    if (state == 'NUMERATE' && button.id != 'decimal' && currentNumLength < 28) {
+    if (state == 'NUMERATE' && button.id != 'decimal' && currentNumLength < 15) {
         recursionOn = false;
 
         switch (sentencePosition) {
@@ -149,7 +149,7 @@ function changeOperator(button) {
 //Display Functions
 function updateDisplay() {
     if (state == 'RETURN'){
-        current.textContent = sentence.result;
+        current.textContent = formatComma(sentence.result);
         previous.textContent = sentence.num1 + sentence.operator + sentence.num2;
         return
     }
@@ -158,14 +158,14 @@ function updateDisplay() {
             current.textContent = currentNum;
             return
         case 0:
-            current.textContent = sentence.num1;
+            current.textContent = formatComma(sentence.num1);
             return
         case 'buffer':
-            current.textContent = currentNum;
+            current.textContent = formatComma(currentNum);
             previous.textContent = sentence.num1 + sentence.operator;
             return
         case 2: 
-            current.textContent = currentNum;
+            current.textContent = formatComma(currentNum);
             previous.textContent = sentence.num1 + sentence.operator + sentence.num2;
             return
     }
@@ -306,4 +306,8 @@ function previousValue(){
 
 function getCurrentNumLength() {
     currentNumLength = currentNum.length;
+}
+
+function formatComma(num) {
+    return parseFloat(num).toLocaleString("en-US")
 }
