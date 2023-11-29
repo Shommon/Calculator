@@ -44,6 +44,7 @@ buttons.forEach((button) => button.addEventListener('click', (e) => {
         
 }))
 
+
 function pushDecimal(button){
     if (decimalPressed == false) {
         if (button.classList.contains('decimal')){

@@ -1,162 +1,191 @@
-*{
-    font-family: 'Exo 2';
+* {
+    font-family: Arimo,'Exo 2','Times New Roman',sans-serif;
+    box-sizing: border-box;
 }
 
-html,body {
+body,html {
+    /* outline: red dashed 5px; */
+    max-width: 100%;
+    max-height: 100%;
+    width: 100%;
+    height: 100%;
+
+    /* flex stuff */
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
 
-    outline: red dashed 5px;
-    height: 100%;
-    width: 100%;
-    box-sizing: border-box;
     background-color: #1E1E1E;
 }
 
 #calculator-body {
-    /* outline: black dashed 5px; */
-    width: 650px;
-    height: 1200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 50px;
+    /* outline: rgb(85, 85, 85) dashed 3px; */
+    max-width: 370px;
+    max-height: 730px;
+    width: 100%;
+    height: 100%;
 
     background-color: #212327;
-}
 
-/*---------- Display  ------- */
-#display-container {
-    outline: blue dashed 3px;
-    width: 100%;
-    height: 220px;
-    margin-top: 60px;
-    
+
     display: flex;
     flex-direction: column;
-    align-items: center;
-    /* text-align: right; */
-    /* gap: 10px; */
+    justify-content: space-between;
     
-}
-
-#previous {
-    outline: red dashed 2px;
-    height: 100px;
-    width: 100%;
-    font-size: 30px;
-    padding-right: 20px;
-    padding-bottom: 10px;
-    overflow: hidden;
-    color: #ACADB6;
-    padding-right: 5% ;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-    box-sizing: border-box;
-    
-}
-
-#current {
-    /* outline: green dashed 2px; */
-    height: 100px;
-    width: 100%;
-    font-size: 60px;
-    font-weight: bold;
-    padding-right: 10px;
-    padding-bottom: 10px;
-
-    color: #E4E5E5;
-    padding-right:5% ;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-    box-sizing: border-box;
-}
-
-
-
-/* -----------Buttons ------------ */
-#button-container {
-    /* outline: rgb(139, 139, 139) dashed 3px; */
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 20px;
-    /* padding: 15% 0 5%; */
-
-    background-color: #27292e;
-    border-top-left-radius: 50px;
-    border-top-right-radius: 50px;
-}
-
-#row {
-    display: flex;
-    outline: green dashed 2px;
-    height: 100px;
-    gap: 20px;
-    justify-content: space-evenly;
-    padding: 0 5%;
-}
-
-
-
-.button{
-    /* outline: black dashed 1px; */
-    width: 100px;
-    height: 100%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2em;
-    border-radius: 300px;
-}
-
-.enter{
-    /* flex: 1; */
-    background: rgb(240,28,132);
-    background: linear-gradient(90deg, rgba(240,28,132,1) 12%, rgba(242,36,120,1) 36%, rgba(252,80,60,1) 74%);
-    border-style: none;
     border-radius: 30px;
-    box-shadow: 0 0 30px 0.1px rgb(240,28,132);
+
 }
+
+#calculator-body:hover{
+    box-shadow: 0 0 50px 50px #353535;
+    transition: 300ms ease;
+
+}
+
+/* ----------Display ------- */
+
+#display-container {
+    /* outline: pink dashed 2px; */
+    max-height: 250px;
+    max-width: 100%;
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#previous{
+    /* outline: green dashed 2px; */
+    max-height: 70px;
+    max-width: 85%;
+    height: 100%;
+    width: 100%;
+
+    color: #C2C3CC;
+    font-size: 1.1em;
+    letter-spacing: 1px;
+
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: right;
+    
+}
+
+#current{
+    /* outline: gold dashed 2px; */
+    max-height: 70px;
+    max-width: 85%;
+    height: 100%;
+    width: 100%;
+    margin-bottom: 5%;
+
+    color: #FFFFFF;
+    font-size: 2.5em;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    
+    display: flex;
+    align-items: flex-end;
+    justify-content: right;
+    overflow:hidden;
+}
+
+
+
+/* ----------Buttons ----------- */
+#button-container {
+    /* outline: blue dashed 2px; */
+    max-height: 498px;
+    max-width: 100%;
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    
+    background-color: #27292E;
+    border-radius: 30px;
+}
+
+#row{
+    /* outline: greenyellow dashed 2px; */
+    max-height: 64px;
+    max-width: 100%;
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+
+.button {
+    max-width: 60px;
+    max-height: 60px;
+    width: 100%;
+    height: 100%;
+
+    color: #FFFFFF;
+    
+    border-radius: 50%;
+    border-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+}
+
+.button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px 0.5px #919191;
+    font-weight: bold;
+    transition: 100ms ease;
+
+}
+
+
+.operator{
+    background-color: #323438;
+    font-size: 24px;
+}
+
 .digit,
 .decimal{
     background-color: transparent;
-    color: #E4E5E5;
-    border-style: none;
-    font-weight: bold;
+    font-size: 24px;
 }
 
 
 
 #allclear,
 #delete{
-    color: rgb(240,28,132);
-    background-color: transparent;
-    border-style: none;
-    font-weight: bold;
-}
-
-#lights{
-    background-color: transparent;
-    color: rgb(240,28,132);
-    font-weight: bolder;
-    font-size: 40px;
-
-    border-style: none;
-    border: #2B2D32 10px solid;
+    font-size: 20px;
+    background: -webkit-linear-gradient(#FB4C41, #F11D83);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color:transparent;
     
 }
 
-.operator{
-    background-color: #323438;
-    border-style: none;
-    color: #E4E5E5;
+#lights{
+    font-size: 24px;
     font-weight: bold;
+    background: -webkit-linear-gradient(#FB4C41, #F11D83);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color:transparent;
+}
+
+#enter{
+    background: -webkit-linear-gradient(#FB4C41, #F11D83);
+    font-size: 1.5em;
+    /* font-weight: bold; */
+    box-shadow: 0 0 20px 0.5px #F11D83;
 }
