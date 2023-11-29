@@ -16,6 +16,8 @@ body,html {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+
 
     background-color: #c5c5c5;
 }
@@ -200,4 +202,26 @@ body,html {
     /* font-weight: bold; */
     /* box-shadow: 0 0 20px 0.5px #F11D83; */
     color: #FFFFFF;
+}
+
+footer{
+    /* outline: black dashed 2px; */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0s ease-in-out;
+    transition: color 0s ease-in;
+
+
+}
+
+.fab {
+    color: black;
+}
+
+.fab:hover{
+    transition: 300ms ease;
+    transform: scale(1.1) rotate(360deg);
 }

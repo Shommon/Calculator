@@ -14,6 +14,7 @@ body,html {
 
     /* flex stuff */
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 
@@ -193,4 +194,25 @@ body,html {
     font-size: 1.5em;
     /* font-weight: bold; */
     box-shadow: 0 0 20px 0.5px #F11D83;
+}
+
+footer{
+    /* outline: black dashed 2px; */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    color: white;
+    transition: background-color 0s ease-in-out;
+    transition: color 0s ease-in;
+}
+
+.fab {
+    color: white;
+}
+
+.fab:hover{
+    transition: 300ms ease;
+    transform: scale(1.1) rotate(360deg);
 }
