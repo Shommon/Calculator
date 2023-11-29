@@ -46,39 +46,39 @@ buttons.forEach((button) => button.addEventListener('click', (e) => {
 
 
 function pushDecimal(button){
-    if (decimalPressed == false) {
-        if (button.classList.contains('decimal')){
-            decimalPressed = true;
-            
-            switch (sentencePosition) {
-                case -1:
-                    sentencePosition = 0;
+    if (!decimalPressed && button.classList.contains('decimal')) {
+        decimalPressed = true;
+        
+        switch (sentencePosition) {
+            case -1:
+                sentencePosition = 0;
+                currentNum += '.';
+                updateSentence('num1', currentNum);
+                break;
+            case 0:
+                if (!currentNum.includes('.')) {
                     currentNum += '.';
                     updateSentence('num1', currentNum);
-                    break;
-                case 0:
-                    if (!currentNum.includes('.')) {
-                        currentNum += '.';
-                        updateSentence('num1', currentNum);
-                    }
-                    break;
-                case 2:
-                    if (!currentNum.includes('.')) {
-                        currentNum += '.';
-                        updateSentence('num2', currentNum);
-                    }
-                    break;
-                case 'buffer':
-                    resetCurrentNum();
-                    currentNum += '0.';
-                    sentencePosition = 2;
-                    updateSentence('num2', currentNum)
-                    break;
-            }
-        } else {
-            return
+                }
+                break;
+            case 2:
+                if (!currentNum.includes('.')) {
+                    currentNum += '.';
+                    updateSentence('num2', currentNum);
+                }
+                break;
+            case 'buffer':
+                resetCurrentNum();
+                currentNum += '0.';
+                sentencePosition = 2;
+                updateSentence('num2', currentNum)
+                break;
         }
 
+        // Update the display immediately after pressing the decimal button
+        updateDisplay();
+    } else {
+        updateDisplay();
     }
 }
 
@@ -310,5 +310,24 @@ function getCurrentNumLength() {
 }
 
 function formatComma(num) {
-    return parseFloat(num).toLocaleString("en-US")
+    const numString = num.toString();
+    const hasDecimal = numString.includes('.');
+    
+    if (hasDecimal) {
+        const [integerPart, decimalPart] = numString.split('.');
+        const formattedInteger = parseFloat(integerPart).toLocaleString('en-US');
+
+        if (decimalPart === '') {
+            return `${formattedInteger}.`;
+        }
+
+        return `${formattedInteger}.${decimalPart}`;
+    }
+
+    // For handling immediate display of the decimal point
+    if (decimalPressed) {
+        return `${parseFloat(num).toLocaleString('en-US')}.`;
+    }
+
+    return parseFloat(num).toLocaleString('en-US');
 }
