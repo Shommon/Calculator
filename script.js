@@ -316,18 +316,18 @@ function formatComma(num) {
     if (hasDecimal) {
         const [integerPart, decimalPart] = numString.split('.');
         const formattedInteger = parseFloat(integerPart).toLocaleString('en-US');
-
+        const formattedDecimal = decimalPart.slice(0,5);
         if (decimalPart === '') {
             return `${formattedInteger}.`;
         }
 
-        return `${formattedInteger}.${decimalPart}`;
+        return `${formattedInteger}.${formattedDecimal}`;
     }
 
     // For handling immediate display of the decimal point
     if (decimalPressed) {
-        return `${parseFloat(num).toLocaleString('en-US')}.`;
+        return `${parseFloat(num).toLocaleString('en-US',{maximumFractionDigits:5})}.`;
     }
 
-    return parseFloat(num).toLocaleString('en-US');
+    return parseFloat(num).toLocaleString('en-US',{maximumFractionDigits:5});
 }

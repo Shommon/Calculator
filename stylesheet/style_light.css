@@ -1,6 +1,8 @@
 * {
     font-family: Arimo,'Exo 2','Times New Roman',sans-serif;
     box-sizing: border-box;
+    transition: background-color 1s ease-in-out .1s;
+    transition: color 1s ease-in .1s;
 }
 
 body,html {
@@ -15,7 +17,7 @@ body,html {
     align-items: center;
     justify-content: center;
 
-    background-color: #1E1E1E;
+    background-color: #c5c5c5;
 }
 
 #calculator-body {
@@ -25,7 +27,7 @@ body,html {
     width: 100%;
     height: 100%;
 
-    background-color: #212327;
+    background-color: #FFFFFF;
 
 
     display: flex;
@@ -34,10 +36,11 @@ body,html {
     
     border-radius: 30px;
 
+
 }
 
 #calculator-body:hover{
-    box-shadow: 0 0 50px 50px #353535;
+    box-shadow: 0 0 50px 50px #d6d6d6;
     transition: 300ms ease;
 
 }
@@ -50,6 +53,7 @@ body,html {
     max-width: 100%;
     height: 100%;
     width: 100%;
+    padding-bottom: 15px;
 
     display: flex;
     flex-direction: column;
@@ -64,7 +68,7 @@ body,html {
     height: 100%;
     width: 100%;
 
-    color: #C2C3CC;
+    color: #637381;
     font-size: 1.1em;
     letter-spacing: 1px;
 
@@ -83,7 +87,7 @@ body,html {
     width: 100%;
     margin-bottom: 5%;
 
-    color: #FFFFFF;
+    color: #1E1E1E;
     font-size: 2.5em;
     font-weight: bold;
     letter-spacing: 1.5px;
@@ -110,7 +114,7 @@ body,html {
     align-items: center;
     gap: 16px;
     
-    background-color: #27292E;
+    background-color: #F5F5F5;
     border-radius: 30px;
 }
 
@@ -133,7 +137,7 @@ body,html {
     width: 100%;
     height: 100%;
 
-    color: #FFFFFF;
+    color: #1E1E1E;
     
     border-radius: 50%;
     border-style: none;
@@ -145,16 +149,23 @@ body,html {
 }
 
 .button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 10px 0.5px #919191;
+    /* transform: scale(1.05) translateY(-3px); */
+    box-shadow: 0 0 20px 0.5px #F11D83;
     font-weight: bold;
     transition: 100ms ease;
 
 }
 
+.button:active{
+    transform: scale(0.95) translateY(3px);
+    box-shadow: 0 0 0px 0px #919191;
+    font-weight: bold;
+    transition: 100ms ease;
+}
+
 
 .operator{
-    background-color: #323438;
+    background-color: #E9E9E9;
     font-size: 24px;
 }
 
@@ -187,5 +198,6 @@ body,html {
     background: -webkit-linear-gradient(#FB4C41, #F11D83);
     font-size: 1.5em;
     /* font-weight: bold; */
-    box-shadow: 0 0 20px 0.5px #F11D83;
+    /* box-shadow: 0 0 20px 0.5px #F11D83; */
+    color: #FFFFFF;
 }
