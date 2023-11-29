@@ -1,7 +1,8 @@
 # Calculator
 Sample calculator with basic mathematical operations
 
-Live Example:
+Live Example:\
+https://shommon.github.io/Calculator/
 
 
 Design taken from Figma:\
